@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Code Generator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            text-align: center;
+            background: #ffffff;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            padding: 30px;
+            width: 350px;
+        }
+        h1 {
+            font-size: 24px;
+            color: #333333;
+            margin-bottom: 20px;
+        }
+        select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #cccccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        textarea {
+            width: 48vh;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #cccccc;
+            border-radius: 5px;
+            font-size: 16px;
+            resize: none; /* Disable manual resize */
+            height: 40px; /* Initial height */
+            max-height: 200px; /* Maximum height */
+            overflow-y: auto; /* Show scrollbar if content overflows */
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .description {
+            margin-top: 10px;
+            margin-bottom: 20px;
+            font-size: 14px;
+            color: #555;
+            text-align: left;
+            padding: 10px;
+            background-color: #e9e9e9;
+            border-radius: 5px;
+        }
+        .footer {
+            margin-top: 15px;
+            font-size: 12px;
+            color: #777;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>whatheQR Code Generator</h1>
+        <form action="/generate" method="POST">
+            <!-- Dropdown to choose QR code type -->
+            <select id="type" name="type" required onchange="showDescription()">
+                <option value="" disabled selected>Select QR Code Type</option>
+                <option value="url">URL</option>
+                <option value="wifi">Wi-Fi Credentials</option>
+                <option value="email">Email</option>
+                <option value="sms">SMS</option>
+                <option value="vcard">vCard</option>
+                <option value="geo">Geolocation</option>
+                <option value="calendar">Calendar Event</option>
+                <option value="custom">Custom Text</option>
+            </select>
+
+            <!-- Textarea for entering details -->
+            <textarea id="data" name="data" placeholder="Enter text or URL to get whatheQR Code" required oninput="autoResize()"></textarea>
+
+            <!-- Description that changes based on the selected QR code type -->
+            <div class="description" id="description">
+                <!-- Dynamic description will appear here -->
+            </div>
+
+            <!-- Submit button -->
+            <button type="submit">Generate QR Code</button>
+        </form>
+        <div class="footer">Made by Dheeraj</div>
+    </div>
+
+    <script>
+        // Function to display description based on selected QR type
+        function showDescription() {
+            const type = document.getElementById("type").value;
+            const description = document.getElementById("description");
+
+            if (type === "url") {
+                description.innerHTML = `
+                    <strong>URL QR Code:</strong> This QR code will direct the user to a website.<br>
+                    <strong>Example:</strong> <code>https://www.example.com</code><br>
+                    Enter a valid URL (e.g., 'https://www.example.com'). When scanned, the device will open the browser to that URL.`;
+            } else if (type === "wifi") {
+                description.innerHTML = `
+                    <strong>Wi-Fi Credentials:</strong> This QR code will allow users to automatically connect to a Wi-Fi network.<br>
+                    <strong>Format:</strong> <code>SSID,Password</code><br>
+                    <strong>Example:</strong> <code>MyNetwork,MyPassword123</code><br>
+                    Enter the Wi-Fi network name (SSID) and password.`;
+            } else if (type === "email") {
+                description.innerHTML = `
+                    <strong>Email QR Code:</strong> This QR code will open the user's email client with a pre-filled email.<br>
+                    <strong>Format:</strong> <code>email@example.com,Subject,Body</code><br>
+                    <strong>Example:</strong> <code>email@example.com,Hello,This is the email body</code><br>
+                    When scanned, the device will open the email client with the pre-filled email.`;
+            } else if (type === "sms") {
+                description.innerHTML = `
+                    <strong>SMS QR Code:</strong> This QR code will open the SMS app with a pre-filled message.<br>
+                    <strong>Format:</strong> <code>PhoneNumber,Message</code><br>
+                    <strong>Example:</strong> <code>+1234567890,Hello!</code><br>
+                    When scanned, the device will open the SMS app with the pre-filled message.`;
+            } else if (type === "vcard") {
+                description.innerHTML = `
+                    <strong>vCard QR Code:</strong> This QR code contains a contact's information.<br>
+                    <strong>Format:</strong> <code>Name,PhoneNumber,Email</code><br>
+                    <strong>Example:</strong> <code>John Doe,+1234567890,john.doe@example.com</code><br>
+                    When scanned, the device will prompt the user to save the contact.`;
+            } else if (type === "geo") {
+                description.innerHTML = `
+                    <strong>Geolocation QR Code:</strong> This QR code opens a map at a specific location.<br>
+                    <strong>Format:</strong> <code>Latitude,Longitude</code><br>
+                    <strong>Example:</strong> <code>37.7749,-122.4194</code><br>
+                    When scanned, the device will open a map at the specified coordinates.`;
+            } else if (type === "calendar") {
+                description.innerHTML = `
+                    <strong>Calendar Event QR Code:</strong> This QR code will add an event to the user's calendar.<br>
+                    <strong>Format:</strong> <code>Summary,StartTime,EndTime,Location,Description</code><br>
+                    <strong>Example:</strong> <code>Meeting,2024-12-25T10:00:00,2024-12-25T11:00:00,Conference Room 1,Year-end Meeting</code><br>
+                    When scanned, the event details will be added to the user's calendar.`;
+            } else if (type === "custom") {
+                description.innerHTML = `
+                    <strong>Custom Text QR Code:</strong> This QR code can hold any type of text.<br>
+                    <strong>Example:</strong> <code>Hello, this is a custom message!</code><br>
+                    Enter any text you want to encode into the QR code.`;
+            }
+        }
+
+        // Function to auto-resize the textarea as the user types
+        function autoResize() {
+            const textarea = document.getElementById('data');
+            textarea.style.height = 'auto';
+            textarea.style.height = (textarea.scrollHeight) + 'px';
+        }
+    </script>
+</body>
+</html>
