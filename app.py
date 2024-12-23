@@ -1,6 +1,7 @@
 from flask import Flask, request, render_template, send_file
 import qrcode
 import io
+import base64
 
 app = Flask(__name__)
 
@@ -79,7 +80,9 @@ def generate():
     img.save(img_io, 'PNG')
     img_io.seek(0)
 
-    return send_file(img_io, mimetype='image/png')
+    img_base64 = base64.b64encode(img_io.getvalue()).decode('utf-8')
+    # return send_file(img_io, mimetype='image/png')
+    return render_template("wtQR.html", img_base64=img_base64)
 
 
 if __name__ == "__main__":
