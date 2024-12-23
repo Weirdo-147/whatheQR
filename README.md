@@ -5,8 +5,8 @@
 
 # Check Website
 Try the following links (two are same if one doesn't work ,try another)
--[whatheQR-Render deployed](https://whatheqr.onrender.com/)
--[whatheQR-Pythonanywhere deployed](https://weirdodev.pythonanywhere.com/)
+- [whatheQR-Render deployed](https://whatheqr.onrender.com/)
+- [whatheQR-Pythonanywhere deployed](https://weirdodev.pythonanywhere.com/)
 
 ## Features
 
