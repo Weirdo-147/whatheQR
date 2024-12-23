@@ -1,6 +1,7 @@
 from flask import Flask, request, render_template, send_file
 import qrcode
 import io
+import os
 import base64
 
 app = Flask(__name__)
