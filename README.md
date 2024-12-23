@@ -3,6 +3,11 @@
 
 **WhatheQR** is a simple and user-friendly web app that allows you to generate QR codes for various types of data, including URLs, Wi-Fi credentials, emails, SMS, vCards, geolocation, calendar events, and custom text.
 
+# Check Website
+Try the following links (two are same if one doesn't work ,try another)
+[whatheQR-Render deployed](https://whatheqr.onrender.com/)
+[whatheQR-Pythonanywhere deployed](https://weirdodev.pythonanywhere.com/)
+
 ## Features
 
 - **URL QR Code**: Generate a QR code that directs to a specific URL.
